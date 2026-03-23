@@ -1,1 +1,0 @@
-# Softuni-Angular-Project-26-TechStore
