@@ -7,4 +7,4 @@ import { RouterLink } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class Home {}
+export class HomeComponent {}
