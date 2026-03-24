@@ -13,7 +13,11 @@ const removePassword = (data) => {
 }
 
 function register(req, res, next) {
-    const { tel, email, username, password, repeatPassword } = req.body;
+    const { tel, email, username, password, rePassword } = req.body;
+
+    if (password !== rePassword) {
+        return res.status(400).json({ message: 'Passwords do not match!' });
+    }
 
     return userModel.create({ tel, email, username, password })
         .then((createdUser) => {
@@ -78,10 +82,10 @@ function logout(req, res) {
     tokenBlacklistModel.create({ token })
         .then(() => {
             res.clearCookie(authCookieName)
-                .status(204)
-                .send({ message: 'Logged out!' });
+                .status(200)
+                .json({ message: 'Logged out!' });
         })
-        .catch(err => res.send(err));
+        .catch(err => res.status(500).json({ message: 'Logout failed' }));
 }
 
 function getProfileInfo(req, res, next) {
@@ -101,10 +105,45 @@ function editProfileInfo(req, res, next) {
         .catch(next);
 }
 
+function getFavorites(req, res, next) {
+    const { _id: userId } = req.user;
+    userModel.findById(userId)
+        .populate('favorites')
+        .then(user => res.status(200).json(user.favorites))
+        .catch(next);
+}
+
+function addFavorite(req, res, next) {
+    const { _id: userId } = req.user;
+    const { productId } = req.params;
+    userModel.findByIdAndUpdate(
+        userId,
+        { $addToSet: { favorites: productId } },
+        { new: true }
+    )
+        .then(() => res.status(200).json({ message: 'Added to favorites' }))
+        .catch(next);
+}
+
+function removeFavorite(req, res, next) {
+    const { _id: userId } = req.user;
+    const { productId } = req.params;
+    userModel.findByIdAndUpdate(
+        userId,
+        { $pull: { favorites: productId } },
+        { new: true }
+    )
+        .then(() => res.status(200).json({ message: 'Removed from favorites' }))
+        .catch(next);
+}
+
 module.exports = {
     login,
     register,
     logout,
     getProfileInfo,
     editProfileInfo,
-}
+    getFavorites,
+    addFavorite,
+    removeFavorite,
+};
