@@ -36,21 +36,17 @@ const userSchema = new mongoose.Schema({
             message: props => `${props.value} must contains only latin letters and digits!`
         },
     },
-    themes: [{
+    favorites: [{
         type: ObjectId,
-        ref: "Theme"
+        ref: "Product"
     }],
-    posts: [{
-        type: ObjectId,
-        ref: "Post"
-    }]
 }, { timestamps: { createdAt: 'created_at' } });
 
 userSchema.methods = {
     matchPassword: function (password) {
         return bcrypt.compare(password, this.password);
     }
-}
+};
 
 userSchema.pre('save', function (next) {
     if (this.isModified('password')) {
@@ -64,8 +60,8 @@ userSchema.pre('save', function (next) {
                 }
                 this.password = hash;
                 next();
-            })
-        })
+            });
+        });
         return;
     }
     next();
