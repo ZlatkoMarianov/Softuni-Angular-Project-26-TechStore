@@ -1,0 +1,15 @@
+.form-footer {
+  font-size: 14px;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.form-footer a {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}

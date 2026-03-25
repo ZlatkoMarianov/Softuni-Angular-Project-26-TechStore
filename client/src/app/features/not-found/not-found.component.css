@@ -1,0 +1,8 @@
+.big {
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -3px;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
