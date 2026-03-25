@@ -8,21 +8,23 @@ import { ProductDetailsComponent } from './features/product-details/product-deta
 import { ProductFormComponent } from './features/product-form/product-form.component';
 import { MyProductsComponent } from './features/my-products/my-products.component';
 import { FavoritesComponent } from './features/favorites/favorites.component';
+import { guestGuard } from './core/guards/guest.guard';
+import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
 
     { path: 'home', component: HomeComponent },
     { path: 'catalog', component: CatalogComponent },
-    { path: 'products/add', component: ProductFormComponent },
-    { path: 'products/:id/edit', component: ProductFormComponent },
+    { path: 'products/create', component: ProductFormComponent, canActivate: [authGuard] },
+    { path: 'products/:id/edit', component: ProductFormComponent, canActivate: [authGuard] },
     { path: 'products/:id', component: ProductDetailsComponent },
 
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
+    { path: 'login', component: LoginComponent, canActivate: [guestGuard] },
+    { path: 'register', component: RegisterComponent, canActivate: [guestGuard] },
 
-    { path: 'my-products', component: MyProductsComponent },
-    { path: 'favorites', component: FavoritesComponent },
+    { path: 'my-products', component: MyProductsComponent, canActivate: [authGuard] },
+    { path: 'favorites', component: FavoritesComponent, canActivate: [authGuard] },
 
     { path: '**', component: NotFoundComponent },
 ];
