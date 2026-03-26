@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { computed, inject, Injectable, signal } from "@angular/core";
-import { User } from "../../shared/interfaces/user";
-import { Product } from "../../shared/interfaces/product";
+import { Observable } from "rxjs";
+import { User, LoginData, RegisterData } from "../../shared/interfaces/user";
 
 
 
@@ -15,35 +15,23 @@ export class AuthService {
     isLoggedIn = computed(() => this.user() !== null);
     currentUser = computed(() => this.user());
 
-    login(email: string, password: string) {
-        return this.http.post<User>(`${this.apiUrl}/login`, { email, password })
+    login(loginData: LoginData): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/login`, loginData);
     }
 
-    register(username: string, email: string, password: string, rePassword: string) {
-        return this.http.post<User>(`${this.apiUrl}/register`, { username, email, password, rePassword })
+    register(registerData: RegisterData): Observable<User> {
+        return this.http.post<User>(`${this.apiUrl}/register`, registerData)
     }
 
-    logout() {
-        return this.http.post(`${this.apiUrl}/logout`, {})
+    logout(): Observable<void> {
+        return this.http.post<void>(`${this.apiUrl}/logout`, {});
     }
 
-    getProfile() {
+    getProfile(): Observable<User> {
         return this.http.get<User>(`${this.apiUrl}/users/profile`);
     }
 
     setUser(user: User | null) {
         this.user.set(user);
-    }
-
-    getFavorites() {
-        return this.http.get<Product[]>(`${this.apiUrl}/users/favorites`);
-    }
-
-    addFavorite(productId: string) {
-        return this.http.post(`${this.apiUrl}/users/favorites/${productId}`, {});
-    }
-
-    removeFavorite(productId: string) {
-        return this.http.delete(`${this.apiUrl}/users/favorites/${productId}`);
     }
 }

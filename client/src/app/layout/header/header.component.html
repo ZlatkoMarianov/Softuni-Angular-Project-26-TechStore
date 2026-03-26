@@ -1,18 +1,26 @@
 <header class="header">
   <div class="container header-inner">
 
-    <div class="logo">Tech<span>Store</span></div>
+    <a class="logo" routerLink="/home">Tech<span>Store</span></a>
 
     <nav class="nav">
-      <a href="#">Home</a>
-      <a href="#">Catalog</a>
-      <a href="#">Favorites</a>
-      <a href="#">My Products</a>
+      <a routerLink="/home" routerLinkActive="active">Home</a>
+      <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
+      @if (authService.isLoggedIn()) {
+        <a routerLink="/favorites" routerLinkActive="active">Favorites</a>
+        <a routerLink="/my-products" routerLinkActive="active">My Products</a>
+      }
     </nav>
 
     <div class="auth">
-      <a href="#">Login</a>
-      <a href="#" class="btn">Register</a>
+      @if (authService.isLoggedIn()) {
+        <!-- <span class="username">{{ authService.currentUser()?.username }}</span> -->
+        <!-- <a routerLink="/products/create" class="btn">Add Product</a> -->
+        <!-- <button class="btn btn-logout" (click)="logout()">Logout</button> -->
+      } @else {
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/register" class="btn" routerLinkActive="active">Register</a>
+      }
     </div>
 
   </div>
