@@ -1,25 +1,69 @@
 <section class="section">
     <div class="container">
-        <form class="form" novalidate>
+        <form class="form" [formGroup]="registerForm" (ngSubmit)="onRegister()" novalidate>
 
             <h2>Register</h2>
 
+            @if (errorMessage) {
+                <p class="error-message">{{ errorMessage }}</p>
+            }
+
             <div class="form-group">
                 <label for="reg-username">Username</label>
-                <input id="reg-username" type="text" placeholder="Username" autocomplete="username">
+                <input id="reg-username" type="text" placeholder="Username" autocomplete="username" formControlName="username">
+                @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+                    @if (registerForm.get('username')?.errors?.['required']) {
+                        <span class="field-error">Username is required</span>
+                    } @else if (registerForm.get('username')?.errors?.['minlength']) {
+                        <span class="field-error">Username must be at least 3 characters</span>
+                    }
+                }
             </div>
 
             <div class="form-group">
                 <label for="reg-email">Email</label>
-                <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email">
+                <input id="reg-email" type="email" placeholder="you@example.com" autocomplete="email" formControlName="email">
+                @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+                    @if (registerForm.get('email')?.errors?.['required']) {
+                        <span class="field-error">Email is required</span>
+                    } @else if (registerForm.get('email')?.errors?.['invalidEmail']) {
+                        <span class="field-error">Please enter a valid email</span>
+                    }
+                }
             </div>
 
-            <div class="form-group">
-                <label for="reg-password">Password</label>
-                <input id="reg-password" type="password" placeholder="Password" autocomplete="new-password">
+            <div formGroupName="passwords">
+                <div class="form-group">
+                    <label for="reg-password">Password</label>
+                    <input id="reg-password" type="password" placeholder="Password" autocomplete="new-password" formControlName="password">
+                    @if (passwordsGroup.get('password')?.invalid && passwordsGroup.get('password')?.touched) {
+                        @if (passwordsGroup.get('password')?.errors?.['required']) {
+                            <span class="field-error">Password is required</span>
+                        } @else if (passwordsGroup.get('password')?.errors?.['minlength']) {
+                            <span class="field-error">Password must be at least 6 characters</span>
+                        }
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="reg-rePassword">Repeat Password</label>
+                    <input id="reg-rePassword" type="password" placeholder="Repeat Password" autocomplete="new-password" formControlName="rePassword">
+                    @if (passwordsGroup.get('rePassword')?.invalid && passwordsGroup.get('rePassword')?.touched) {
+                        @if (passwordsGroup.get('rePassword')?.errors?.['required']) {
+                            <span class="field-error">Repeat password is required</span>
+                        }
+                    }
+                    @if (passwordsGroup.errors?.['passwordsMismatch'] && passwordsGroup.get('rePassword')?.touched) {
+                        <span class="field-error">Passwords do not match</span>
+                    }
+                </div>
             </div>
 
-            <button class="btn" type="submit">Register</button>
+            <button class="btn" type="submit" [disabled]="isLoading">
+                @if (isLoading) { Loading... } @else { Register }
+            </button>
+
+            <p class="form-footer">Already have an account? <a routerLink="/login">Login</a></p>
 
         </form>
     </div>
