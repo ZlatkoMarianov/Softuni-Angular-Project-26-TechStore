@@ -4,7 +4,7 @@
     <h3>{{ product.name }}</h3>
     <p class="truncate">{{ product.description }}</p>
     <div class="card-bottom">
-      <span>{{ product.price | number:'1.2-2' }} $</span>
+      <span>{{ product.price | number:'1.2-2' }} €</span>
       <a class="btn-small" [routerLink]="['/products', product._id]">Details</a>
     </div>
 
