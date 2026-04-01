@@ -43,6 +43,7 @@ function update(req, res, next) {
         { name, price, category, imageUrl, description },
         { new: true, runValidators: true }
     )
+        .populate('owner', 'username email')
         .then(product => {
             if (!product) return res.status(403).json({ message: 'Not allowed or product not found' });
             res.status(200).json(product);
@@ -62,4 +63,12 @@ function remove(req, res, next) {
         .catch(next);
 }
 
-module.exports = { getAll, getById, create, update, remove };
+function getMine(req, res, next) {
+    productModel.find({ owner: req.user._id })
+        .populate('owner', 'username email')
+        .sort({ created_at: -1 })
+        .then(products => res.status(200).json(products))
+        .catch(next);
+}
+
+module.exports = { getAll, getById, create, update, remove, getMine };

@@ -1,15 +1,24 @@
-
 <section class="section">
   <div class="container">
 
     <div class="page-header">
       <h2 class="title">My Products</h2>
-      <a routerLink="/products/add" class="btn">+ Add Product</a>
+      <a routerLink="/products/create" class="btn">+ Add Product</a>
     </div>
 
-    <div class="product-grid">
-      <p>No products yet.</p>
+    @if (products().length === 0) {
+    <div class="empty-state">
+      <p>You haven't added any products yet.</p>
     </div>
+    }
+
+    @if (products().length > 0) {
+    <div class="product-grid">
+      @for (product of products(); track product._id) {
+      <app-product-card [product]="product" />
+      }
+    </div>
+    }
 
   </div>
 </section>
