@@ -1,52 +1,51 @@
 <section class="section">
-<div class="container">
+    <div class="container">
 
-<div class="page-header">
-<div>
-<h2 class="title">Catalog</h2>
-<p class="section-subtitle">All available products</p>
-</div>
-</div>
+        <div class="page-header">
+            <div>
+                <h2 class="title">Catalog</h2>
+                <p class="section-subtitle">All available products</p>
+            </div>
+        </div>
 
-<div class="product-grid">
+        
+        <div class="filters">
+            <input type="text" class="search-input" placeholder="Search products..." [(ngModel)]="searchQuery"
+                (input)="onSearch()" />
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1517336714739-489689fd1ca8" alt="Lenovo ThinkPad laptop">
-<div class="card-body">
-<h3>Lenovo ThinkPad</h3>
-<p>Reliable laptop for professionals.</p>
-<div class="card-bottom">
-<span>$1299</span>
-<button class="btn-small">Details</button>
-</div>
-</div>
-</div>
+            <select class="category-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+                <option value="">All categories</option>
+                @for (category of categories; track category) {
+                <option [value]="category">{{ category }}</option>
+                }
+            </select>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9" alt="Galaxy Ultra smartphone">
-<div class="card-body">
-<h3>Galaxy Ultra</h3>
-<p>Premium smartphone with amazing camera.</p>
-<div class="card-bottom">
-<span>$1199</span>
-<button class="btn-small">Details</button>
-</div>
-</div>
-</div>
+            <button class="btn-reset" (click)="onResetFilters()" [disabled]="!searchQuery && !selectedCategory">
+                Reset
+            </button>
+        </div>
 
-<div class="card">
-<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853" alt="Dell XPS laptop">
-<div class="card-body">
-<h3>Dell XPS 15</h3>
-<p>Sleek ultrabook with OLED display.</p>
-<div class="card-bottom">
-<span>$1599</span>
-<button class="btn-small">Details</button>
-</div>
-</div>
-</div>
+        @if (isLoading()) {
+        <div class="loading">Loading products...</div>
+        }
 
-</div>
+        @if (errorMessage()) {
+        <div class="error-message">{{ errorMessage() }}</div>
+        }
 
-</div>
+        @if (!isLoading() && !errorMessage() && products().length === 0) {
+        <div class="empty-state">
+            <p>No products found.</p>
+        </div>
+        }
+
+        @if (!isLoading() && !errorMessage() && products().length > 0) {
+        <div class="product-grid">
+            @for (product of products(); track product._id) {
+            <app-product-card [product]="product" />
+            }
+        </div>
+        }
+
+    </div>
 </section>

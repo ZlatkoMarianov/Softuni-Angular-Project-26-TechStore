@@ -1,13 +1,19 @@
-
 <div class="card">
-<img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853" alt="Dell XPS laptop">
-<div class="card-body">
-<h3>Dell XPS 15</h3>
-<p>Sleek ultrabook with OLED display.</p>
-<div class="card-bottom">
-<span>$1599</span>
-<button class="btn-small">Details</button>
-</div>
-</div>
-</div>
+  <img [src]="product.imageUrl || 'assets/no-image.png'" [alt]="product.name">
+  <div class="card-body">
+    <h3>{{ product.name }}</h3>
+    <p class="truncate">{{ product.description }}</p>
+    <div class="card-bottom">
+      <span>{{ product.price | number:'1.2-2' }} $</span>
+      <a class="btn-small" [routerLink]="['/products', product._id]">Details</a>
+    </div>
 
+    @if (showOwnerActions) {
+    <div class="card-actions">
+      <button type="button" class="btn-small" (click)="onEdit()">Edit</button>
+      <button type="button" class="btn-small btn-danger" (click)="onDelete()">Delete</button>
+    </div>
+    }
+
+  </div>
+</div>
