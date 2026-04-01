@@ -4,6 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { emailValidator } from '../../../shared/validators/email.validator';
 import { passwordsMatchValidator } from '../../../shared/validators/passwordMatch.validator';
+import { LoadingService } from '../../../core/services/loading.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -15,9 +17,8 @@ export class RegisterComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
-
-  isLoading = false;
-  errorMessage = '';
+  readonly loadingService = inject(LoadingService);
+  private toast = inject(ToastService);
 
   registerForm: FormGroup = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
@@ -38,9 +39,6 @@ export class RegisterComponent {
       return;
     }
 
-    this.isLoading = true;
-    this.errorMessage = '';
-
     const { username, email, passwords } = this.registerForm.value;
 
     this.authService.register({
@@ -51,12 +49,11 @@ export class RegisterComponent {
     }).subscribe({
       next: (user) => {
         this.authService.setUser(user);
-        this.isLoading = false;
+        this.toast.success(`Welcome, ${user.username}! Your account has been created.`);
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
+        this.toast.error(err?.error?.message || err?.message || 'Registration failed. Please try again.');
       },
     });
   }

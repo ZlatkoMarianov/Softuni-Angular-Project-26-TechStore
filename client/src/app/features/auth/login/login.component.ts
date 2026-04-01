@@ -3,6 +3,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { emailValidator } from '../../../shared/validators/email.validator';
+import { LoadingService } from '../../../core/services/loading.service';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -14,9 +16,8 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
   private fb = inject(FormBuilder);
-
-  isLoading = false;
-  errorMessage = '';
+  readonly loadingService = inject(LoadingService);
+  private toast = inject(ToastService);
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, emailValidator()]],
@@ -29,18 +30,14 @@ export class LoginComponent {
       return;
     }
 
-    this.isLoading = true;
-    this.errorMessage = '';
-
     this.authService.login(this.loginForm.value).subscribe({
       next: (user) => {
         this.authService.setUser(user);
-        this.isLoading = false;
+        this.toast.success(`Welcome back, ${user.username}!`);
         this.router.navigate(['/home']);
       },
       error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = err.error?.message || 'Login failed. Please try again.';
+        this.toast.error(err?.error?.message || err?.message || 'Login failed. Please try again.');
       },
     });
   }

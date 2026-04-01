@@ -4,10 +4,6 @@
 
             <h2>Login</h2>
 
-            @if (errorMessage) {
-            <p class="error-message">{{ errorMessage }}</p>
-            }
-
             <div class="form-group">
                 <label for="login-email">Email</label>
                 <input id="login-email" type="email" placeholder="you@example.com" autocomplete="email"
@@ -30,8 +26,8 @@
                 }
             </div>
 
-            <button class="btn" type="submit" [disabled]="isLoading">
-                @if (isLoading) { Loading... } @else { Login }
+            <button class="btn" type="submit" [disabled]="loadingService.isLoading()">
+                @if (loadingService.isLoading()) { Loading... } @else { Login }
             </button>
 
             <p class="form-footer">Don't have an account? <a routerLink="/register">Register</a></p>

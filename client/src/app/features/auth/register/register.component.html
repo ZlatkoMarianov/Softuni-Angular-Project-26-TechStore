@@ -4,10 +4,6 @@
 
             <h2>Register</h2>
 
-            @if (errorMessage) {
-                <p class="error-message">{{ errorMessage }}</p>
-            }
-
             <div class="form-group">
                 <label for="reg-username">Username</label>
                 <input id="reg-username" type="text" placeholder="Username" autocomplete="username" formControlName="username">
@@ -59,8 +55,8 @@
                 </div>
             </div>
 
-            <button class="btn" type="submit" [disabled]="isLoading">
-                @if (isLoading) { Loading... } @else { Register }
+            <button class="btn" type="submit" [disabled]="loadingService.isLoading()">
+                @if (loadingService.isLoading()) { Loading... } @else { Register }
             </button>
 
             <p class="form-footer">Already have an account? <a routerLink="/login">Login</a></p>

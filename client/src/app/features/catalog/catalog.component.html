@@ -8,10 +8,10 @@
             </div>
         </div>
 
-        
+
         <div class="filters">
             <input type="text" class="search-input" placeholder="Search products..." [(ngModel)]="searchQuery"
-                (input)="onSearch()" />
+                (keydown.enter)="onSearch()" />
 
             <select class="category-select" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
                 <option value="">All categories</option>
@@ -19,6 +19,8 @@
                 <option [value]="category">{{ category }}</option>
                 }
             </select>
+
+            <button class="btn-search" (click)="onSearch()">Search</button>
 
             <button class="btn-reset" (click)="onResetFilters()" [disabled]="!searchQuery && !selectedCategory">
                 Reset

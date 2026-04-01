@@ -18,6 +18,10 @@ export class HeaderComponent {
         this.authService.setUser(null);
         this.router.navigate(['/home']);
       },
+      error: () => {
+        this.authService.setUser(null);
+        this.router.navigate(['/home']);
+      },
     });
   }
 }

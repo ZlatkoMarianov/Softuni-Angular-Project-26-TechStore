@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.css',
 })
