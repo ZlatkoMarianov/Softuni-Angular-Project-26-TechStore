@@ -9,10 +9,11 @@ export class ProductService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/api';
 
-  getAll(search?: string, category?: string): Observable<Product[]> {
+  getAll(search?: string, category?: string, limit?: number): Observable<Product[]> {
     let params = new HttpParams();
     if (search) params = params.set('search', search);
     if (category) params = params.set('category', category);
+    if (limit) params = params.set('limit', limit.toString());
     return this.http.get<Product[]>(`${this.apiUrl}/products`, { params });
   }
 

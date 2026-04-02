@@ -79,7 +79,7 @@ app-root {
 }
 
 .section {
-  padding: 88px 0;
+  padding: 100px 0;
 }
 
 .section.alt {
@@ -298,6 +298,7 @@ app-root {
   letter-spacing: -0.3px;
   color: var(--color-dark);
   margin-bottom: 2px;
+  text-align: center;
 }
 
 .form-group {

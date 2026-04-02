@@ -1,14 +1,17 @@
 const { productModel } = require('../models');
 
 function getAll(req, res, next) {
-    const { search, category } = req.query;
+    const { search, category, limit } = req.query;
     const filter = {};
     if (search) filter.name = { $regex: search, $options: 'i' };
     if (category && category !== 'All') filter.category = category;
 
+    const parsedLimit = parseInt(limit);
+
     productModel.find(filter)
         .populate('owner', 'username email')
         .sort({ created_at: -1 })
+        .limit(parsedLimit > 0 ? parsedLimit : 0)
         .then(products => res.status(200).json(products))
         .catch(next);
 }
