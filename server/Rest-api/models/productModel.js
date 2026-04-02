@@ -10,7 +10,7 @@ const productSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: true,
-        min: [0, 'Price cannot be negative'],
+        min: [0.01, 'Price must be at least 0.01'],
     },
     category: {
         type: String,
@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: true,
+        match: [/^https?:\/\/.+/i, 'Image URL must be a valid http/https URL'],
     },
     description: {
         type: String,

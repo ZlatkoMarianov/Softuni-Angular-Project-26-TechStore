@@ -173,19 +173,20 @@ app-root {
   align-items: center;
   justify-content: center;
   padding: 10px 22px;
-  border: 1px solid var(--color-border);
+  border: 1.5px solid var(--color-primary);
   border-radius: var(--radius);
-  background: var(--color-secondary);
-  color: var(--color-text);
+  background: transparent;
+  color: var(--color-primary);
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-  transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  transition: background 0.18s, color 0.18s, transform 0.18s;
 }
 
 .btn-secondary:hover {
-  background: #e2e8f0;
-  border-color: #b0bec5;
+  background: var(--color-primary);
+  color: #fff;
   transform: translateY(-1px);
 }
 

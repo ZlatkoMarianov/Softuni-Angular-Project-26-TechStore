@@ -1,39 +1,85 @@
-<section class="section">
+<section class="section alt">
     <div class="container">
-        <form class="form">
-            <h2>Add Product</h2>
+        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+            <h2>{{ isEditMode ? 'Edit Product' : 'Add Product' }}</h2>
 
             <div class="form-group">
                 <label for="name">Product Name</label>
-                <input id="name" type="text" placeholder="Product Name">
+                <input id="name" type="text" formControlName="name" placeholder="Product Name"
+                    [class.input-valid]="name.valid && name.touched" [class.input-error]="name.invalid && name.touched">
+                @if (name.invalid && name.touched) {
+                @if (name.errors?.['required']) {
+                <span class="field-error">Name is required</span>
+                } @else if (name.errors?.['minlength']) {
+                <span class="field-error">Minimum {{ name.errors?.['minlength'].requiredLength }} characters</span>
+                }
+                }
             </div>
 
             <div class="form-group">
-                <label for="price">Price ($)</label>
-                <input id="price" type="number" min="0" placeholder="Price">
+                <label for="price">Price (€)</label>
+                <input id="price" type="number" formControlName="price" placeholder="0.00" min="0.01" step="0.01"
+                    [class.input-valid]="price.valid && price.touched"
+                    [class.input-error]="price.invalid && price.touched">
+                @if (price.invalid && price.touched) {
+                @if (price.errors?.['required']) {
+                <span class="field-error">Price is required</span>
+                } @else if (price.errors?.['min']) {
+                <span class="field-error">Price must be greater than 0</span>
+                }
+                }
             </div>
 
             <div class="form-group">
                 <label for="category">Category</label>
-                <select id="category">
-                    <option>Phone</option>
-                    <option>Laptop</option>
-                    <option>Tablet</option>
-                    <option>Accessory</option>
+                <select id="category" formControlName="category"
+                    [class.input-valid]="category.valid && category.touched"
+                    [class.input-error]="category.invalid && category.touched">
+                    @for (cat of categories; track cat) {
+                    <option [value]="cat">{{ cat }}</option>
+                    }
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="imageUrl">Image URL</label>
-                <input id="imageUrl" type="url" placeholder="https://...">
+                <input id="imageUrl" type="url" formControlName="imageUrl" placeholder="https://..."
+                    [class.input-valid]="imageUrl.valid && imageUrl.touched"
+                    [class.input-error]="imageUrl.invalid && imageUrl.touched">
+                @if (imageUrl.invalid && imageUrl.touched) {
+                @if (imageUrl.errors?.['required']) {
+                <span class="field-error">Image URL is required</span>
+                } @else if (imageUrl.errors?.['pattern']) {
+                <span class="field-error">Must be a valid URL (https://...)</span>
+                }
+                }
             </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea id="description" placeholder="Description"></textarea>
+                <textarea id="description" formControlName="description" placeholder="Description" rows="4"
+                    [class.input-valid]="description.valid && description.touched"
+                    [class.input-error]="description.invalid && description.touched">
+        </textarea>
+                @if (description.invalid && description.touched) {
+                @if (description.errors?.['required']) {
+                <span class="field-error">Description is required</span>
+                } @else if (description.errors?.['minlength']) {
+                <span class="field-error">Minimum {{ description.errors?.['minlength'].requiredLength }}
+                    characters</span>
+                }
+                }
             </div>
 
-            <button class="btn" type="submit">Create</button>
+            <div class="form-actions">
+                <a [routerLink]="isEditMode ? ['/products', productId] : ['/catalog']" class="btn btn-secondary">Cancel</a>
+                <button class="btn" type="submit" [disabled]="loadingService.isLoading()">
+                    @if (loadingService.isLoading()) { Saving... } @else { {{ isEditMode ? 'Save Changes' : 'Create
+                    Product' }} }
+                </button>
+            </div>
+
         </form>
     </div>
 </section>
