@@ -28,8 +28,12 @@
     </div>
 
     <div class="product-grid">
-      @for (product of latestProducts(); track product._id) {
-      <app-product-card [product]="product" />
+      @if (latestProducts().length) {
+        @for (product of latestProducts(); track product._id) {
+          <app-product-card [product]="product" />
+        }
+      } @else {
+        <p class="empty-state">No products available yet.</p>
       }
     </div>
   </div>

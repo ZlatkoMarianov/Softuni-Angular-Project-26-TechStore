@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Product } from '../../interfaces/product';
+import { TruncatePipe } from '../../pipes/truncate.pipe';
 
 @Component({
   selector: 'app-product-card',
-  imports: [RouterLink, DecimalPipe],
+  imports: [RouterLink, DecimalPipe, TruncatePipe],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
 })

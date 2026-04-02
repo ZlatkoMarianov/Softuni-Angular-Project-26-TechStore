@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { AutofocusDirective } from '../../../shared/directives/autofocus.directive';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -9,7 +10,7 @@ import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, AutofocusDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })

@@ -5,7 +5,7 @@
         <img [src]="p.imageUrl || 'assets/no-image.png'" [alt]="p.name">
 
         <div class="details-info">
-          <span class="category-badge">{{ p.category }}</span>
+          <span class="category-badge">{{ p.category | titlecase }}</span>
           <h2>{{ p.name }}</h2>
           <p class="price">{{ p.price | number:'1.2-2' }} €</p>
           <p class="description">{{ p.description }}</p>

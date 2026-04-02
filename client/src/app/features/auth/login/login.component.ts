@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { AutofocusDirective } from '../../../shared/directives/autofocus.directive';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,7 +9,7 @@ import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, AutofocusDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
