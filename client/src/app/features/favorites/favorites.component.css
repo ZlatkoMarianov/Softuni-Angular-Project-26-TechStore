@@ -1,0 +1,23 @@
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 2rem;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-grid app-product-card {
+  display: block;
+  height: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--color-muted);
+}

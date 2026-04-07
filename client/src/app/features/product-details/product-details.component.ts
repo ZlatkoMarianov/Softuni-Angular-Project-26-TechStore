@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../../core/services/product.service';
 import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../core/services/toast.service';
+import { FavoritesService } from '../../core/services/favorites.service';
 import { finalize } from 'rxjs';
 import { Comment } from '../../shared/interfaces/comment';
 import { Product } from '../../shared/interfaces/product';
@@ -21,9 +22,12 @@ export class ProductDetailsComponent implements OnInit {
   private productService = inject(ProductService);
   private authService = inject(AuthService);
   private toast = inject(ToastService);
+  private favoritesService = inject(FavoritesService);
 
   product = signal<Product | null>(null);
   comments = signal<Comment[]>([]);
+  isFavorite = signal(false);
+  isFavoriteSubmitting = signal(false);
   commentText = '';
   isSubmitting = signal(false);
 
@@ -47,6 +51,10 @@ export class ProductDetailsComponent implements OnInit {
 
     this.loadProduct(id);
     this.loadComments(id);
+
+    if (this.isLoggedIn) {
+      this.loadFavorites(id);
+    }
   }
 
   loadProduct(id: string): void {
@@ -65,6 +73,38 @@ export class ProductDetailsComponent implements OnInit {
       next: (data) => this.comments.set(data),
       error: () => this.comments.set([]),
     });
+  }
+
+  loadFavorites(productId: string): void {
+    this.favoritesService.getFavorites().subscribe({
+      next: (favorites) => {
+        this.isFavorite.set(favorites.some(f => f._id === productId));
+      },
+      error: () => this.isFavorite.set(false),
+    });
+  }
+
+  onToggleFavorite(): void {
+    const product = this.product();
+
+    if (!product || this.isFavoriteSubmitting()) return;
+
+    this.isFavoriteSubmitting.set(true);
+
+    const action = this.isFavorite()
+      ? this.favoritesService.removeFavorite(product._id)
+      : this.favoritesService.addFavorite(product._id);
+
+    action
+      .pipe(finalize(() => this.isFavoriteSubmitting.set(false)))
+      .subscribe({
+        next: () => {
+          const nextValue = !this.isFavorite();
+          this.isFavorite.set(nextValue);
+          this.toast.success(nextValue ? 'Added to favorites' : 'Removed from favorites');
+        },
+        error: () => this.toast.error('Failed to update favorites'),
+      });
   }
 
   onDelete(): void {

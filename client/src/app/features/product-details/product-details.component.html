@@ -11,12 +11,26 @@
           <p class="description">{{ p.description }}</p>
           <p class="owner">Added by: <strong>{{ p.owner.username }}</strong></p>
 
-          @if (isOwner) {
-            <div class="actions">
+          <div class="actions">
+            @if (isOwner) {
               <button type="button" class="btn-secondary" (click)="onEdit()">Edit</button>
               <button type="button" class="btn-danger" (click)="onDelete()">Delete</button>
-            </div>
-          }
+            }
+            @if (isLoggedIn && !isOwner) {
+              <button
+                type="button"
+                class="btn-favorite"
+                (click)="onToggleFavorite()"
+                [disabled]="isFavoriteSubmitting()"
+              >
+                @if (isFavoriteSubmitting()) {
+                  Updating...
+                } @else {
+                  {{ isFavorite() ? '♥ Remove from Favorites' : '♡ Add to Favorites' }}
+                }
+              </button>
+            }
+          </div>
         </div>
       </div>
     </div>
