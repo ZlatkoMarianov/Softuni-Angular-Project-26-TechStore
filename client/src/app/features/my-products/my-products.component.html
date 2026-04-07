@@ -6,7 +6,7 @@
       <a routerLink="/products/create" class="btn">+ Add Product</a>
     </div>
 
-    @if (products().length === 0) {
+    @if (isLoaded() && products().length === 0) {
     <div class="empty-state">
       <p>You haven't added any products yet.</p>
     </div>

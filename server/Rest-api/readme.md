@@ -1,4 +1,110 @@
-# REST-api for Angular course in SoftUni
+# TechStore REST API
+
+Node.js + Express backend for the TechStore Angular project.
+
+## Getting Started
+
+```bash
+npm install
+npm start
+```
+
+> Server runs on `http://localhost:3000`
+
+## Base URL
+
+```
+http://localhost:3000/api
+```
+
+---
+
+## Endpoints: Users
+
+| Method | URL | Auth | Description |
+|--------|-----|------|-------------|
+| POST | `/users/register` | — | Register new user |
+| POST | `/users/login` | — | Login |
+| POST | `/users/logout` | ✅ | Logout |
+| GET | `/users/profile` | ✅ | Get current user info |
+| GET | `/users/favorites` | ✅ | Get favorited products |
+| POST | `/users/favorites/:productId` | ✅ | Add to favorites |
+| DELETE | `/users/favorites/:productId` | ✅ | Remove from favorites |
+
+### Register — `POST /users/register`
+
+**Body:**
+```json
+{
+  "username": "john123",
+  "email": "john@example.com",
+  "password": "12345",
+  "rePassword": "12345"
+}
+```
+
+**Success (200):**
+```json
+{
+  "_id": "...",
+  "username": "john123",
+  "email": "john@example.com"
+}
+```
+
+**Error (409):** Email or username already taken.
+
+---
+
+### Login — `POST /users/login`
+
+**Body:**
+```json
+{
+  "email": "john@example.com",
+  "password": "12345"
+}
+```
+
+**Success (200):** Returns user object.  
+**Error (401):** Wrong email or password.
+
+---
+
+## Endpoints: Products
+
+| Method | URL | Auth | Description |
+|--------|-----|------|-------------|
+| GET | `/products` | — | Get all products (supports `?search=` and `?category=`) |
+| GET | `/products/:id` | — | Get product by ID |
+| GET | `/products/my` | ✅ | Get current user's products |
+| POST | `/products` | ✅ | Create product |
+| PUT | `/products/:id` | ✅ (owner) | Edit product |
+| DELETE | `/products/:id` | ✅ (owner) | Delete product |
+| GET | `/products/:id/comments` | — | Get comments for product |
+| POST | `/products/:id/comments` | ✅ | Add comment |
+
+### Create Product — `POST /products`
+
+**Body:**
+```json
+{
+  "name": "iPhone 15",
+  "price": 999.99,
+  "category": "Phone",
+  "imageUrl": "https://example.com/image.jpg",
+  "description": "Latest iPhone model."
+}
+```
+
+**Success (201):** Returns created product.
+
+---
+
+## Authentication
+
+Authentication uses HTTP-only cookies with JWT. After login, the cookie is sent automatically with every request. No manual token handling is needed on the frontend — all requests must include `withCredentials: true`.
+
 
 ## Getting started
 Let's make our first API request to the REST-api!

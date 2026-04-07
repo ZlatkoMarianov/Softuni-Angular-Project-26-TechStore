@@ -74,9 +74,8 @@
 
             <div class="form-actions">
                 <a [routerLink]="isEditMode ? ['/products', productId] : ['/catalog']" class="btn btn-secondary">Cancel</a>
-                <button class="btn" type="submit" [disabled]="loadingService.isLoading()">
-                    @if (loadingService.isLoading()) { Saving... } @else { {{ isEditMode ? 'Save Changes' : 'Create
-                    Product' }} }
+                <button class="btn" type="submit" [disabled]="isSaving()">
+                    @if (isSaving()) { Saving... } @else { {{ isEditMode ? 'Save Changes' : 'Create Product' }} }
                 </button>
             </div>
 

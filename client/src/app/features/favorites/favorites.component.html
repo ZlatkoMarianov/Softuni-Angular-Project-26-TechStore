@@ -2,7 +2,13 @@
   <div class="container">
     <h2 class="title">Favorites</h2>
 
-    @if (!error() && favorites().length === 0) {
+    @if (error()) {
+    <div class="empty-state">
+      <p>{{ error() }}</p>
+    </div>
+    }
+
+    @if (!error() && isLoaded() && favorites().length === 0) {
     <div class="empty-state">
       <p>No favorites yet.</p>
     </div>
@@ -11,7 +17,10 @@
     @if (!error() && favorites().length > 0) {
     <div class="product-grid">
       @for (product of favorites(); track product._id) {
-        <app-product-card [product]="product" />
+        <div class="card-wrapper">
+          <button class="btn-remove" type="button" (click)="onRemove(product._id)">✕</button>
+          <app-product-card [product]="product" />
+        </div>
       }
     </div>
     }

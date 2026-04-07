@@ -16,6 +16,7 @@ export class MyProductsComponent implements OnInit {
   private toast = inject(ToastService);
 
   products = signal<Product[]>([]);
+  isLoaded = signal(false);
 
   ngOnInit(): void {
     this.loadMyProducts();
@@ -23,8 +24,14 @@ export class MyProductsComponent implements OnInit {
 
   loadMyProducts(): void {
     this.productService.getMyProducts().subscribe({
-      next: (data) => this.products.set(data),
-      error: () => this.toast.error('Failed to load your products'),
+      next: (data) => {
+        this.products.set(data);
+        this.isLoaded.set(true);
+      },
+      error: () => {
+        this.isLoaded.set(true);
+        this.toast.error('Failed to load your products');
+      },
     });
   }
 

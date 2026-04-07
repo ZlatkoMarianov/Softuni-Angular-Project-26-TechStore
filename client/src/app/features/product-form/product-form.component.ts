@@ -1,9 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductService } from '../../core/services/product.service';
 import { ToastService } from '../../core/services/toast.service';
-import { LoadingService } from '../../core/services/loading.service';
 
 @Component({
   selector: 'app-product-form',
@@ -17,10 +16,10 @@ export class ProductFormComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private toast = inject(ToastService);
-  readonly loadingService = inject(LoadingService);
 
   isEditMode = false;
   productId: string | null = null;
+  isSaving = signal(false);
 
   readonly categories = ['Phone', 'Laptop', 'Tablet', 'Accessory'];
 
@@ -60,6 +59,7 @@ export class ProductFormComponent implements OnInit {
     }
 
     const productData = this.form.value;
+    this.isSaving.set(true);
 
     const request$ = this.isEditMode && this.productId
       ? this.productService.update(this.productId, productData)
@@ -71,6 +71,7 @@ export class ProductFormComponent implements OnInit {
         this.router.navigate(['/products', product._id]);
       },
       error: (err) => {
+        this.isSaving.set(false);
         this.toast.error(err?.error?.message || 'Something went wrong');
       },
     });

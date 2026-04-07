@@ -21,3 +21,34 @@
   padding: 3rem;
   color: var(--color-muted);
 }
+
+.card-wrapper {
+  position: relative;
+  display: block;
+}
+
+.btn-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-danger);
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.btn-remove:hover {
+  background: var(--color-danger);
+  color: #fff;
+}
