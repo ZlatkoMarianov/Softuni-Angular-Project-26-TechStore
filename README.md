@@ -80,6 +80,14 @@ You can use these accounts to test the application:
 - Empty state messages on all list pages
 - Responsive layout
 
+## Screenshots
+
+### Home
+![Home](<client/public/screenshots/Home page.png>)
+
+### Catalog
+![Catalog](<client/public/screenshots/Catalog page.png>)
+
 ## Application Structure
 
 ```
