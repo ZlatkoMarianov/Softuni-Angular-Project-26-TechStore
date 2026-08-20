@@ -1,6 +1,6 @@
 .footer {
   padding: 28px 0;
-  background: var(--color-dark);
+  background: var(--color-footer-bg);
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 

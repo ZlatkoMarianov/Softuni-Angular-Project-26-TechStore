@@ -5,6 +5,8 @@
   --color-bg-alt:       #e8eef5;
   --color-surface:      #ffffff;
   --color-dark:         #0f172a;
+  --color-footer-bg:    #0f172a;
+  --color-overlay:      rgba(255, 255, 255, 0.45);
   --color-text:         #1e293b;
   --color-muted:        #64748b;
   --color-subtle:       #94a3b8;
@@ -27,6 +29,25 @@
   --radius:      10px;
   --radius-card: 16px;
   --radius-pill: 999px;
+}
+
+:root.dark-theme {
+  color-scheme: dark;
+  --color-bg:           #0f172a;
+  --color-bg-alt:       #111c31;
+  --color-surface:      #1e293b;
+  --color-dark:         #f8fafc;
+  --color-footer-bg:    #080f1f;
+  --color-overlay:      rgba(15, 23, 42, 0.62);
+  --color-text:         #e2e8f0;
+  --color-muted:        #a8b3c4;
+  --color-subtle:       #94a3b8;
+  --color-border:       #334155;
+  --color-secondary:    #273449;
+  --shadow-xs:          0 1px 3px rgba(0,0,0,0.28);
+  --shadow-card:        0 2px 12px rgba(0,0,0,0.28);
+  --shadow-card-hover:  0 8px 32px rgba(0,0,0,0.36);
+  --shadow-form:        0 8px 32px rgba(0,0,0,0.32);
 }
 
 
