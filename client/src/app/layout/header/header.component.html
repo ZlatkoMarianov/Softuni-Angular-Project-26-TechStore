@@ -13,6 +13,15 @@
     </nav>
 
     <div class="auth">
+      <button
+        class="theme-toggle"
+        type="button"
+        (click)="themeService.toggle()"
+        [attr.aria-label]="themeService.isDark() ? 'Switch to light theme' : 'Switch to dark theme'"
+        [title]="themeService.isDark() ? 'Light theme' : 'Dark theme'"
+      >
+        {{ themeService.isDark() ? '☀️' : '🌙' }}
+      </button>
       @if (authService.isLoggedIn()) {
       <span class="username">{{ authService.currentUser()?.username }}</span>
       <!-- <a routerLink="/products/create" class="btn">Add Product</a> -->
